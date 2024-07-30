@@ -1,0 +1,53 @@
+swagger: "2.0"
+info:
+  contact:
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server celler server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Swagger Example API
+  version: "1.0"
+host: localhost:8080
+basePath: /api
+paths:
+  /ai-dashboard:
+    post:
+      consumes:
+      - application/json
+      description: Get an AI-generated response based on the user command
+      parameters:
+      - description: User command
+        in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          properties:
+            user_command:
+              type: string
+              description: The command from the user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Response
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+      summary: Get AI Response

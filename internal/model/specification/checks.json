@@ -1,0 +1,399 @@
+{
+    "type": "function",
+    "function": {
+        "name": "create_posture_check",
+        "description": "Create a posture-check on the specific conditions",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Short name for this posture-check"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Brief description for this posture-check"
+                },
+                "checks": {
+                    "type": "object",
+                    "description": "a set of objects that perform the actual checks",
+                    "properties": {
+                        "nb_version_check": {
+                            "type": "object",
+                            "description": "Restrict access to peers with a specific Netzilo client version. Only peers with the minimum specified Netzilo client version will have access to the network.",
+                            "properties": {
+                                "min_version": {
+                                    "type": "string",
+                                    "description": "Minium version of Netzilo client e.g., 0.25.0"
+                                }
+                            }
+                        },
+                        "os_version_check": {
+                            "type": "object",
+                            "description": "Restrict access in your network based on the operating system.",
+                            "properties": {
+                                "android": {
+                                    "type": "object",
+                                    "description": "Choose whether you want to allow or block the android.",
+                                    "properties": {
+                                        "min_version": {
+                                            "type": "string",
+                                            "description": "Minimum version of android e.g., 3.0"
+                                        }
+                                    }
+                                },
+                                "darwin": {
+                                    "type": "object",
+                                    "description": "Choose whether you want to allow or block the macOS.",
+                                    "properties": {
+                                        "min_version": {
+                                            "type": "string",
+                                            "description": "Minimum version of macOS e.g., 14.0"
+                                        }
+                                    }
+                                },
+                                "ios": {
+                                    "type": "object",
+                                    "description": "Choose whether you want to allow or block the iOS.",
+                                    "properties": {
+                                        "min_kernel_version": {
+                                            "type": "string",
+                                            "description": "Minimum kernel version of iOS e.g., 17.0"
+                                        }
+                                    }
+                                },
+                                "linux": {
+                                    "type": "object",
+                                    "description": "Choose whether you want to allow or block the Linux.",
+                                    "properties": {
+                                        "min_kernel_version": {
+                                            "type": "string",
+                                            "description": "Minimum kernel version of Linux e.g., 6.0.0"
+                                        }
+                                    }
+                                },
+                                "windows": {
+                                    "type": "object",
+                                    "description": "Choose whether you want to allow or block the Windows.",
+                                    "properties": {
+                                        "min_kernel_version": {
+                                            "type": "string",
+                                            "description": "Minimum kernel version of Windows e.g., 10.0.2"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "geo_location_check": {
+                            "type": "object",
+                            "description": "Restrict access in your network based on country or region. Choose whether you want to allow or block access from specific countries or regions.",
+                            "properties": {
+                                "locations": {
+                                    "type": "array",
+                                    "description": "list of geolocations, to which the policy applies",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "country_code": {
+                                                "type": "string",
+                                                "description": "2-letter ISO 3166-1 alpha-2 code that represents the country"
+                                            },
+                                            "city_name": {
+                                                "type": "string",
+                                                "description": "Commonly used English name of the city"
+                                            }
+                                        }
+                                    }
+                                },
+                                "action": {
+                                    "type": "string",
+                                    "enum": [
+                                        "allow",
+                                        "deny"
+                                    ]
+                                }
+                            }
+                        },
+                        "peer_network_range_check": {
+                            "type": "object",
+                            "description": "Restrict access by allowing or blocking peer network ranges.",
+                            "properties": {
+                                "action": {
+                                    "type": "string",
+                                    "enum": [
+                                        "allow",
+                                        "deny"
+                                    ]
+                                },
+                                "ranges": {
+                                    "type": "array",
+                                    "description": "List of ip addresses with suffix",
+                                    "items": {
+                                        "type": "string",
+                                        "description": "Network IP address with suffix e.g., 192.168.1.0/24"
+                                    }
+                                }
+                            }
+                        },
+                        "process_check": {
+                            "type": "object",
+                            "description": "ProcessCheck Posture Check for binaries exist and are running in the peer’s system",
+                            "properties": {
+                                "processes": {
+                                    "type": "array",
+                                    "description": "Processes Describes the operational activities within a peer's system.",
+                                    "items": {
+                                        "type": "object",
+                                        "description": "Process Describes the operational activity within a peer's system.",
+                                        "properties": {
+                                            "linux_path": {
+                                                "type": "string",
+                                                "description": "LinuxPath Path to the process executable file in a Linux operating system"
+                                            },
+                                            "mac_path": {
+                                                "type": "string",
+                                                "description": "MacPath Path to the process executable file in a Mac operating system"
+                                            },
+                                            "windows_path": {
+                                                "type": "string",
+                                                "description": "WindowsPath Path to the process executable file in a Windows operating system"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "netzilo_check": {
+                            "type": "object",
+                            "description": "a set of objects that perform checks for peer domain, security settings and advanced settings",
+                            "properties": {
+                                "peer_domain_check": {
+                                    "type": "object",
+                                    "description": "Restrict access by checking if peers are a member of a specific network domain. Choose whether you would like to allow or block specific domains.",
+                                    "properties": {
+                                        "action": {
+                                            "type": "string",
+                                            "enum": [
+                                                "allow",
+                                                "deny"
+                                            ]
+                                        },
+                                        "domains": {
+                                            "type": "array",
+                                            "description": "",
+                                            "items": {
+                                                "type": "string",
+                                                "description": "e.g., netzilodomain"
+                                            }
+                                        }
+                                    }
+                                },
+                                "security_settings_check": {
+                                    "type": "object",
+                                    "description": "Choose the required security settings that each peer device should have on before allowing access",
+                                    "properties": {
+                                        "antivirus_check": {
+                                            "type": "boolean",
+                                            "description": "An antivirus must be installed, active and up-to-date"
+                                        },
+                                        "disk_encryption_check": {
+                                            "type": "boolean",
+                                            "description": "A firewall must be installed and active"
+                                        },
+                                        "firewall_check": {
+                                            "type": "boolean",
+                                            "description": "Disk encryption such as Bitlocker must be enabled"
+                                        },
+                                        "os_updates_check": {
+                                            "type": "boolean",
+                                            "description": "A screen saver with a password must be enabled"
+                                        },
+                                        "screen_lock_check": {
+                                            "type": "boolean",
+                                            "description": "Operating system updates must be on and up-to-date"
+                                        }
+                                    }
+                                },
+                                "advanced_settings_check": {
+                                    "type": "object",
+                                    "description": "Choose required advanced settings such as netzilo workspace, files, keys or running services on peer devices",
+                                    "properties": {
+                                        "netzilo_workspace_check": {
+                                            "type": "boolean",
+                                            "description": "Accessing device must be using Netzilo workspace"
+                                        },
+                                        "device_integrity_check": {
+                                            "type": "boolean",
+                                            "description": "Accessing device must not be cracked, rooted or jailbroken"
+                                        },
+                                        "virtual_device_check": {
+                                            "type": "boolean",
+                                            "description": "Accessing device must not be a virtual device"
+                                        },
+                                        "file_folder_check": {
+                                            "type": "object",
+                                            "description": "Accessing device must have certain files or directories",
+                                            "properties": {
+                                                "action": {
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "all",
+                                                        "any"
+                                                    ]
+                                                },
+                                                "check": {
+                                                    "type": "object",
+                                                    "description": "",
+                                                    "properties": {
+                                                        "darwin": {
+                                                            "type": "object",
+                                                            "description": "For macOS",
+                                                            "properties": {
+                                                                "path": {
+                                                                    "type": "string",
+                                                                    "description": "e.g., c:\netzilo\test"
+                                                                },
+                                                                "content": {
+                                                                    "type": "string",
+                                                                    "description": "regular expression"
+                                                                }
+                                                            }
+                                                        },
+                                                        "linux": {
+                                                            "type": "object",
+                                                            "description": "For Linux",
+                                                            "properties": {
+                                                                "path": {
+                                                                    "type": "string",
+                                                                    "description": "e.g., c:\netzilo\test"
+                                                                },
+                                                                "content": {
+                                                                    "type": "string",
+                                                                    "description": "regular expression"
+                                                                }
+                                                            }
+                                                        },
+                                                        "windows": {
+                                                            "type": "object",
+                                                            "description": "For Windows",
+                                                            "properties": {
+                                                                "path": {
+                                                                    "type": "string",
+                                                                    "description": "e.g., c:\netzilo\test"
+                                                                },
+                                                                "content": {
+                                                                    "type": "string",
+                                                                    "description": "regular expression"
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "processes_check": {
+                                            "type": "object",
+                                            "description": "Accessing device must have certain processes running",
+                                            "properties": {
+                                                "action": {
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "all",
+                                                        "any"
+                                                    ]
+                                                },
+                                                "check": {
+                                                    "type": "object",
+                                                    "description": "",
+                                                    "properties": {
+                                                        "android": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "type": "string",
+                                                                "description": "Path e.g.,c:\netzilo\test.*"
+                                                            }
+                                                        },
+                                                        "darwin": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "type": "string",
+                                                                "description": "Path e.g.,c:\netzilo\test.*"
+                                                            }
+                                                        },
+                                                        "ios": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "type": "string",
+                                                                "description": "Path e.g.,c:\netzilo\test.*"
+                                                            }
+                                                        },
+                                                        "linux": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "type": "string",
+                                                                "description": "Path e.g.,c:\netzilo\test.*"
+                                                            }
+                                                        },
+                                                        "windows": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "type": "string",
+                                                                "description": "Path e.g.,c:\netzilo\test.*"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "registry_check": {
+                                            "type": "object",
+                                            "description": "Accessing device must have certain registry keys or values",
+                                            "properties": {
+                                                "action": {
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "all",
+                                                        "any"
+                                                    ]
+                                                },
+                                                "registry": {
+                                                    "type": "array",
+                                                    "description": "Registry keys with path",
+                                                    "items": {
+                                                        "type": "object",
+                                                        "description": "Registry key with path",
+                                                        "properties": {
+                                                            "key": {
+                                                                "type": "string",
+                                                                "description": "Key e.g. software\netzilo*key"
+                                                            },
+                                                            "value": {
+                                                                "type": "string",
+                                                                "description": "Value e.g., Run"
+                                                            },
+                                                            "dir": {
+                                                                "type": "string",
+                                                                "enum": [
+                                                                    "HKLM",
+                                                                    "HKCU",
+                                                                    "HKCR",
+                                                                    "HKCC",
+                                                                    "HKU"
+                                                                ]
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "required": []
+        }
+    }
+}

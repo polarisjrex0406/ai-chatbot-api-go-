@@ -1,0 +1,262 @@
+{
+    "type": "function",
+    "function": {
+        "name": "create_profile",
+        "description": "Create a profile on the specific conditions",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Set an easily identifiable name for this profile."
+                },
+                "os": {
+                    "type": "string",
+                    "description": "Default value is Windows",
+                    "enum": [
+                        "Windows",
+                        "Darwin",
+                        "Linux"
+                    ]
+                },
+                "groups": {
+                    "type": "array",
+                    "description": "groups of peers from user input",
+                    "items": {
+                        "type": "string",
+                        "description": "Default value is All"
+                    }
+                },
+                "enabled": {
+                    "type": "boolean",
+                    "description": "Use this switch to enable or disable the profile. Default value is false",
+                    "enum": [
+                        true,
+                        false
+                    ]
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Write a short description to add more context to this profile."
+                },
+                "components": {
+                    "type": "object",
+                    "description": "security components to deploy",
+                    "properties": {
+                        "netzilo_workspace": {
+                            "type": "object",
+                            "description": "Creates a secure and isolated enclave on endpoints to protect data accessed by work applications",
+                            "properties": {
+                                "work_apps": {
+                                    "type": "array",
+                                    "description": "",
+                                    "items": {
+                                        "type": "object",
+                                        "description": "Configure path, command line and other optional settings about the application",
+                                        "properties": {
+                                            "path": {
+                                                "type": "string",
+                                                "description": "path e.g., c:\\windows\\system32\notepad.exe"
+                                            },
+                                            "cmd": {
+                                                "type": "string",
+                                                "description": "command of line arguments e.g. /c /f"
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "Optional. type a friendly name e.g. Google Chrome"
+                                            },
+                                            "hashes": {
+                                                "type": "array",
+                                                "description": "Hash values",
+                                                "items": {
+                                                    "type": "string",
+                                                    "description": "Hash value"
+                                                }
+                                            },
+                                            "signers": {
+                                                "type": "array",
+                                                "description": "Signers",
+                                                "items": {
+                                                    "type": "string",
+                                                    "description": ""
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "restrictions": {
+                                    "type": "object",
+                                    "description": "",
+                                    "properties": {
+                                        "isolated_enclave": {
+                                            "type": "object",
+                                            "description": "Creates an isolated enclave on the endpoint for work apps",
+                                            "properties": {
+                                                "encryption_key": {
+                                                    "type": "string",
+                                                    "description": "Optional. Encryption key used for encrypting the virtual disk created for secure enclave."
+                                                },
+                                                "setup_key": {
+                                                    "type": "string",
+                                                    "description": "Optional. A setup key that is used to authenticate work apps to a Netzilo Network."
+                                                },
+                                                "create_document_shortcuts": {
+                                                    "type": "boolean",
+                                                    "description": "Creates outside shortcuts for documents(e.g. .pdf, .ppt) downloaded inside isolated enclave for easy access"
+                                                },
+                                                "wipe_data_when_closed": {
+                                                    "type": "boolean",
+                                                    "description": "Disposes all data e.g. files downloaded created inside enclave when all work apps are closed"
+                                                }
+                                            }
+                                        },
+                                        "watermark_text": {
+                                            "type": "string",
+                                            "description": "a watermark to graphical user interface of work apps"
+                                        },
+                                        "watermark_type": {
+                                            "type": "string",
+                                            "description": "a watermark type to graphical user interface of work apps",
+                                            "enum": [
+                                                "sparse",
+                                                "dense"
+                                            ]
+                                        },
+                                        "restrict_clipboard": {
+                                            "type": "boolean",
+                                            "description": "Restrict copying and pasting data from work apps to non-work apps"
+                                        },
+                                        "restrict_key_logging": {
+                                            "type": "boolean",
+                                            "description": "Prevents key-logging applications to record key strokes of work apps"
+                                        },
+                                        "restrict_printing": {
+                                            "type": "boolean",
+                                            "description": "Prevents work apps from printing sensitive data"
+                                        },
+                                        "restrict_screen_sharing": {
+                                            "type": "boolean",
+                                            "description": "Prevents screen capturing or sharing apps to grab the screens of work apps"
+                                        },
+                                        "verify_workspace_integrity": {
+                                            "type": "boolean",
+                                            "description": "Hardens work apps against advanced attacks such as device rooting, debugging or memory injection attacks"
+                                        },
+                                        "create_desktop_shortcuts": {
+                                            "type": "string",
+                                            "description": "Choose a folder name where users can find shortcuts for workapps e.g. WorkApps"
+                                        },
+                                        "restrict_endzone_network": {
+                                            "type": "boolean",
+                                            "description": ""
+                                        },
+                                        "show_blue_border": {
+                                            "type": "boolean",
+                                            "description": "Draws a blue border around work apps to identify them visually"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "disposable_browser": {
+                            "type": "string",
+                            "description": "Choose a folder name where users can find shortcuts for disposable browsers e.g. Disposable Browsers"
+                        },
+                        "browser_extension": {
+                            "type": "array",
+                            "description": "Installs Netzilo enterprise browser extension to protect data delivered through web applications",
+                            "items": {
+                                "type": "object",
+                                "description": "Configure protection settings for the web domain",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "domain name e.g. netzilo.com"
+                                    },
+                                    "restrict_downloads": {
+                                        "type": "array",
+                                        "description": "Restrict files that could be downloaded from matching web domains",
+                                        "items": {
+                                            "type": "string",
+                                            "description": "'all' to block all or a regex to block files with matching content"
+                                        }
+                                    },
+                                    "block_urls": {
+                                        "type": "array",
+                                        "description": "Define URL patterns that should be blocked from being accessed",
+                                        "items": {
+                                            "type": "string",
+                                            "description": "domain name e.g. .netzilo.com"
+                                        }
+                                    },
+                                    "redact": {
+                                        "type": "array",
+                                        "description": "Define sensitive data patterns and mask them before displaying",
+                                        "items": {
+                                            "type": "object",
+                                            "description": "",
+                                            "properties": {
+                                                "regex": {
+                                                    "type": "string",
+                                                    "description": "(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7.."
+                                                },
+                                                "show_last": {
+                                                    "type": "number",
+                                                    "description": "integer. minimum is 0"
+                                                },
+                                                "mask_with": {
+                                                    "type": "string",
+                                                    "description": ""
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "watermark_text": {
+                                        "type": "string",
+                                        "description": "Adds a watermark to web site while visiting"
+                                    },
+                                    "watermark_type": {
+                                        "type": "string",
+                                        "description": "a watermark type to web site while visiting",
+                                        "enum": [
+                                            "sparse",
+                                            "dense"
+                                        ]
+                                    },
+                                    "restrict_printing": {
+                                        "type": "boolean",
+                                        "description": "Prevents browser from printing sensitive data from matching domains"
+                                    },
+                                    "restrict_clipboard": {
+                                        "type": "boolean",
+                                        "description": "Restrict copying and pasting data from matching web domains"
+                                    },
+                                    "temporary_sessinn_cookie": {
+                                        "type": "boolean",
+                                        "description": "Marks session cookies for deletion when the browser is closed"
+                                    },
+                                    "show_gray_border": {
+                                        "type": "boolean",
+                                        "description": "Draws a gray border around protected web content"
+                                    },
+                                    "use_workspace": {
+                                        "type": "boolean",
+                                        "description": "Enforces use of Netzilo workspace while visiting matching web domains"
+                                    },
+                                    "use_browser": {
+                                        "type": "boolean",
+                                        "description": "Enforces use of disposable browser while visiting matching web domains"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "required": [
+                "name"
+            ]
+        }
+    }
+}
